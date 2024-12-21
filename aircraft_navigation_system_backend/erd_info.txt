@@ -1,0 +1,153 @@
+Aircraft Navigation System Database Schema (2NF)
+
+1. Aircraft Table
+-----------------
+Attributes:
+- aircraft_id (Primary Key)
+- model (Aircraft model, e.g., Boeing 737)
+- manufacturer (Aircraft manufacturer, e.g., Boeing)
+- capacity (Number of passengers)
+- range (Distance aircraft can travel in one trip)
+- airline_name (Name of the airline operating the aircraft)
+
+CREATE TABLE Aircraft (
+    aircraft_id INT PRIMARY KEY,
+    model VARCHAR(100),
+    manufacturer VARCHAR(100),
+    capacity INT,
+    range INT,
+    airline_name VARCHAR(100)
+);
+
+2. Aircraft_Navigation Table
+----------------------------
+Attributes:
+- aircraft_id (Foreign Key from Aircraft)
+- navigation_system_type (Type of navigation system, e.g., GPS)
+- installed_date (Date navigation system was installed)
+- last_maintenance_date (Date of the last maintenance check)
+
+Primary Key: Composite key (aircraft_id, navigation_system_type)
+Foreign Key: aircraft_id references Aircraft(aircraft_id)
+
+CREATE TABLE Aircraft_Navigation (
+    aircraft_id INT,
+    navigation_system_type VARCHAR(100),
+    installed_date DATE,
+    last_maintenance_date DATE,
+    PRIMARY KEY (aircraft_id, navigation_system_type),
+    FOREIGN KEY (aircraft_id) REFERENCES Aircraft(aircraft_id)
+);
+
+3. Flights Table
+----------------
+Attributes:
+- flight_id (Primary Key)
+- aircraft_id (Foreign Key from Aircraft)
+- route_id (Foreign Key from Routes)
+- departure_time (Date and time of departure)
+- arrival_time (Date and time of arrival)
+- flight_duration (Duration of the flight)
+
+Foreign Keys:
+- aircraft_id references Aircraft(aircraft_id)
+- route_id references Routes(route_id)
+
+CREATE TABLE Flights (
+    flight_id INT PRIMARY KEY,
+    aircraft_id INT,
+    route_id INT,
+    departure_time DATETIME,
+    arrival_time DATETIME,
+    flight_duration FLOAT,
+    FOREIGN KEY (aircraft_id) REFERENCES Aircraft(aircraft_id),
+    FOREIGN KEY (route_id) REFERENCES Routes(route_id)
+);
+
+4. Routes Table
+---------------
+Attributes:
+- route_id (Primary Key)
+- departure_airport (Foreign Key from Airports)
+- arrival_airport (Foreign Key from Airports)
+- waypoints (Text field storing a list of geographical waypoints)
+- distance (Total distance between departure and arrival airports)
+
+Foreign Keys:
+- departure_airport references Airports(airport_id)
+- arrival_airport references Airports(airport_id)
+
+CREATE TABLE Routes (
+    route_id INT PRIMARY KEY,
+    departure_airport INT,
+    arrival_airport INT,
+    waypoints TEXT,
+    distance FLOAT,
+    FOREIGN KEY (departure_airport) REFERENCES Airports(airport_id),
+    FOREIGN KEY (arrival_airport) REFERENCES Airports(airport_id)
+);
+
+5. Airports Table
+-----------------
+Attributes:
+- airport_id (Primary Key)
+- airport_name (Name of the airport, e.g., JFK International)
+- city (City where the airport is located)
+- country (Country where the airport is located)
+- IATA_code (International airport code, e.g., JFK)
+- latitude (Geographical latitude)
+- longitude (Geographical longitude)
+
+CREATE TABLE Airports (
+    airport_id INT PRIMARY KEY,
+    airport_name VARCHAR(100),
+    city VARCHAR(100),
+    country VARCHAR(100),
+    IATA_code VARCHAR(10),
+    latitude FLOAT,
+    longitude FLOAT
+);
+
+6. Pilots Table (Optional)
+--------------------------
+Attributes:
+- pilot_id (Primary Key)
+- pilot_name (Name of the pilot)
+- license_number (Pilot's license number)
+- experience_years (Number of years of experience)
+- airline_name (Name of the airline the pilot is affiliated with)
+
+CREATE TABLE Pilots (
+    pilot_id INT PRIMARY KEY,
+    pilot_name VARCHAR(100),
+    license_number VARCHAR(50),
+    experience_years INT,
+    airline_name VARCHAR(100)
+);
+
+Optional: Many-to-Many Relation between Flights and Pilots
+CREATE TABLE Flight_Pilot (
+    flight_id INT,
+    pilot_id INT,
+    PRIMARY KEY (flight_id, pilot_id),
+    FOREIGN KEY (flight_id) REFERENCES Flights(flight_id),
+    FOREIGN KEY (pilot_id) REFERENCES Pilots(pilot_id)
+);
+
+Relationships for ER Diagram
+----------------------------
+1. Aircraft - Aircraft_Navigation: One-to-Many
+   - One aircraft can have multiple navigation systems installed.
+
+2. Aircraft - Flights: One-to-Many
+   - One aircraft can operate multiple flights.
+
+3. Flights - Routes: Many-to-One
+   - Each flight follows one route.
+
+4. Routes - Airports: Many-to-One
+   - Each route connects two airports: a departure and an arrival airport.
+
+5. Flights - Pilots (Optional): Many-to-Many
+   - Pilots fly multiple flights; flights can be flown by multiple pilots.
+
