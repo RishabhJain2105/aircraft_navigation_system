@@ -232,6 +232,4 @@ The system provides comprehensive REST API endpoints:
 - **Flights**: `/flights` - Flight operations management
 - **Transactions**: `/transactions` - Transaction handling
 
-Visit `http://localhost:8000/docs` when the backend is running to see the complete API documentation with interactive testing capabilities.
-
 ---
