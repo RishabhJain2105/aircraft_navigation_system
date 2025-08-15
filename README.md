@@ -148,30 +148,30 @@ Before diving in, make sure you have these installed on your system:
 2. **Open your browser** and navigate to `http://localhost:5173`
 3. **Explore the dashboard** to access different modules
 
-### Key Features You Can Use:
+### Key Features:
 
-** Aircraft Management**
+**Aircraft Management**
 - Add new aircraft with specifications
 - View your complete fleet inventory  
 - Update aircraft details and maintenance records
 - Track aircraft by manufacturer and model
 
-** Navigation Systems**
+**Navigation Systems**
 - Monitor GPS, Autopilot, and Radar systems
 - Schedule and track maintenance dates
 - Filter systems by installation or maintenance periods
 
-** Airport Operations**  
+**Airport Operations**  
 - Maintain comprehensive airport database
 - Search airports by name, city, or country
 - Manage IATA codes and geographical coordinates
 
-** Route Planning**
+**Route Planning**
 - Create flight routes between airports
 - Define waypoints and calculate distances  
 - Manage departure and arrival airports
 
-** Flight Operations**
+**Flight Operations**
 - Schedule flights with aircraft and route assignments
 - Track departure and arrival times
 - Monitor flight durations and status
